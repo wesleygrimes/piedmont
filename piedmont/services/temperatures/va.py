@@ -9,6 +9,9 @@ cronos_stations = [{"code": "KCHO", "label": "Charlottesville", "elevation": "64
 
 
 def get_va_temperatures():
+    temperatures = []
+    labels = []
+
     temperatures_with_labels = []
 
     for station in cronos_stations:
@@ -20,4 +23,8 @@ def get_va_temperatures():
             "temp": data["temp"]}
         )
 
-    return temperatures_with_labels
+    for item in temperatures_with_labels:
+        temperatures.append(item['temp'])
+        labels.append(item['label'])
+
+    return temperatures, labels

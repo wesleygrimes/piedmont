@@ -11,6 +11,9 @@ cronos_stations = [{"code": "KCLT", "label": "Charlotte", "elevation": "748ft"},
 
 
 def get_nc_piedmont_temperatures():
+    temperatures = []
+    labels = []
+
     temperatures_with_labels = []
 
     for station in cronos_stations:
@@ -22,4 +25,8 @@ def get_nc_piedmont_temperatures():
             "temp": data["temp"]}
         )
 
-    return temperatures_with_labels
+    for item in temperatures_with_labels:
+        temperatures.append(item['temp'])
+        labels.append(item['label'])
+
+    return temperatures, labels

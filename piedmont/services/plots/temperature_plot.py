@@ -1,13 +1,21 @@
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as pe
+import io
+import base64
+
 from matplotlib.patches import PathPatch
 from matplotlib.collections import LineCollection
 from matplotlib import cm
 from datetime import datetime
 
 
-def get_temperature_plot(title, output_file, temperatures, labels):
+def get_temperature_plot_base64(title, output_file, temperatures, labels):
+    matplotlib.use('Agg')
+
+    img = io.BytesIO()
+
     fig = plt.figure()
     fig.patch.set_facecolor('grey')
     ax = plt.axes()
@@ -62,9 +70,17 @@ def get_temperature_plot(title, output_file, temperatures, labels):
         plt.figtext(0.5, -0.2, "AppalachianWX.com", color='white',
                     size=10, horizontalalignment='center', transform=ax.transAxes)
         # show/save graphic
-        plt.savefig(output_file, bbox_inches='tight',
-                    facecolor=fig.get_facecolor())
-        # plt.show()
+        #plt.savefig(output_file, bbox_inches='tight', facecolor=fig.get_facecolor())
+
+        plt.savefig(img, bbox_inches='tight',
+                    facecolor=fig.get_facecolor(), format="png")
+
+        img.seek(0)
+
+        plot_url = base64.b64encode(img.getvalue()).decode()
+
+        return plot_url
+
     elif len(height) == 0:
         fig = plt.figure()
         fig.patch.set_facecolor('grey')
@@ -72,5 +88,12 @@ def get_temperature_plot(title, output_file, temperatures, labels):
         ax.set_facecolor('grey')
         plt.text(0.5, 0.5, "All Stations Down", color='white', size=22,
                  horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
-        plt.savefig(output_file, bbox_inches='tight',
-                    facecolor=fig.get_facecolor())
+
+        plt.savefig(img, bbox_inches='tight',
+                    facecolor=fig.get_facecolor(), format="png")
+
+        img.seek(0)
+
+        plot_url = base64.b64encode(img.getvalue()).decode()
+
+        return plot_url

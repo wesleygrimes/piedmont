@@ -12,9 +12,9 @@ bp = Blueprint("temperature", __name__)
 @bp.route("/")
 def index():
     """Fetch temperature plots"""
-    plots = {"nc_mountain_temperature_plot": services.get_nc_mountain_temperature_plot(),
-             "nc_piedmont_temperature_plot": services.get_nc_mountain_temperature_plot(),
-             "va_piedmont_temperature_plot": services.get_nc_mountain_temperature_plot()
+    plots = {"nc_mountain_temperature_plot_base64": services.get_nc_mountain_temperature_plot_base64(),
+             "nc_piedmont_temperature_plot_base64": services.get_nc_piedmont_temperature_plot_base64(),
+             "va_temperature_plot_base64": services.get_va_temperature_plot_base_64()
              }
 
     return render_template("temperature/index.html", plots=plots)
