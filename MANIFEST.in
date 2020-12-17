@@ -1,0 +1,5 @@
+include LICENSE.rst
+graft piedmont/static
+graft piedmont/templates
+graft tests
+global-exclude *.pyc
